@@ -1,6 +1,28 @@
-export const sum = (a: number, b: number) => {
-  if ('development' === process.env.NODE_ENV) {
-    console.log('dev only output');
-  }
-  return a + b;
+import { BaseValidator, InferType } from './core';
+import { EnumValidator } from './enum';
+import { NumberValidator } from './number';
+import { ObjectValidator } from './object';
+import { StringValidator } from './string';
+
+const v = {
+  string() {
+    return new StringValidator();
+  },
+  number() {
+    return new NumberValidator();
+  },
+  object<
+    V extends {
+      [k: string]: V[keyof V] extends BaseValidator<infer Inner>
+        ? BaseValidator<Inner>
+        : never;
+    }
+  >(validator: V) {
+    return new ObjectValidator(validator);
+  },
+  enum<T extends Record<string | number, string | number>>(enumType: T) {
+    return new EnumValidator(enumType);
+  },
 };
+
+export default v;
