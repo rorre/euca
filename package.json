@@ -46,5 +46,14 @@
       "path": "dist/euca.esm.js",
       "limit": "10 KB"
     }
-  ]
+  ],
+  "devDependencies": {
+    "@size-limit/preset-small-lib": "^9.0.0",
+    "@tsconfig/recommended": "^1.0.3",
+    "dts-cli": "^2.0.3",
+    "husky": "^8.0.3",
+    "size-limit": "^9.0.0",
+    "tslib": "^2.6.2",
+    "typescript": "^5.2.2"
+  }
 }
