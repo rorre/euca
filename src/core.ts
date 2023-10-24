@@ -2,10 +2,9 @@ export type ParseResult<T> =
   | { success: false; data?: undefined }
   | { success: true; data: T };
 export type ValidateFunc<T> = (data: T) => boolean;
-export interface Validator<TExpected> {
-  validate: ValidateFunc<TExpected>;
-}
-export type InferType<T> = T extends Validator<infer Inner> ? Inner : never;
+export type InferType<T> = T extends BaseValidator<infer Inner, unknown>
+  ? Inner
+  : never;
 
 export abstract class BaseValidator<T, TValidate = T> {
   optionalProperty: boolean;
