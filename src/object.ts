@@ -1,9 +1,7 @@
 import { BaseValidator, InferType } from './core';
 
-type IsValidatorOptional<T> = T extends BaseValidator<infer Inner>
-  ? Inner extends undefined
-    ? true
-    : false
+export type IsValidatorOptional<T> = undefined extends InferType<T>
+  ? true
   : false;
 
 export class ObjectValidator<
@@ -17,9 +15,9 @@ export class ObjectValidator<
       ? k
       : never]: InferType<V[k]>;
   } & {
-    [k in keyof V as IsValidatorOptional<V[k]> extends false
-      ? never
-      : k]+?: InferType<V[k]>;
+    [k in keyof V as IsValidatorOptional<V[k]> extends true
+      ? k
+      : never]+?: InferType<V[k]>;
   }
 > extends BaseValidator<T> {
   validator: V;
