@@ -45,7 +45,7 @@ Methods:
 - `.optional()`: Mark current property as optional
 - `.nullable()`: Mark current property as nullable
 
-> ![WARNING]
+> [!WARNING]
 > All modifier methods causes the type for the validator to be overriden. This means you should use core modifiers **last**.
 
 ### Objects
