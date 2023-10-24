@@ -1,3 +1,4 @@
+import { ArrayValidator } from './array';
 import { BaseValidator, InferType } from './core';
 import { EnumValidator } from './enum';
 import { NumberValidator } from './number';
@@ -22,6 +23,9 @@ const v = {
   },
   enum<T extends Record<string | number, string | number>>(enumType: T) {
     return new EnumValidator(enumType);
+  },
+  array<V>(validator: BaseValidator<V>) {
+    return new ArrayValidator(validator);
   },
 };
 
