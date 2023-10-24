@@ -1,103 +1,77 @@
-# DTS User Guide
+<p align="center">
+  <h1 align="center">Euca</h1>
+  <p align="center">Yet another validator and JSON parser with first class Typescript support and zod-like features.</p>
+</p>
 
-Congrats! You just saved yourself hours of work by bootstrapping this project with DTS. Let’s get you oriented with what’s here and how to use it.
+## Why
 
-> This DTS setup is meant for developing libraries (not apps!) that can be published to NPM. If you’re looking to build a Node app, you could use `ts-node-dev`, plain `ts-node`, or simple `tsc`.
+I want to experiment with building a TypeScript library, and I think this is a good way to learn because of how type inference is heavily used.
 
-> If you’re new to TypeScript, checkout [this handy cheatsheet](https://devhints.io/typescript)
+...and I love zod, so why not try and replicate what they did?
 
-## Commands
+## How
 
-DTS scaffolds your new library inside `/src`.
+### Installation
 
-To run DTS, use:
+This package is not published on npm (and I'm not sure if I plan to do so), but you can install this package using git link.
 
-```bash
-npm start # or yarn start
+```
+npm i git+https://github.com/rorre/euca.git
 ```
 
-This builds to `/dist` and runs the project in watch mode so any edits you save inside `src` causes a rebuild to `/dist`.
+The package exports one default object for you to use, `v`. You use it just like how you would do in zod!
 
-To do a one-off build, use `npm run build` or `yarn build`.
+### Example Usage
 
-To run tests, use `npm test` or `yarn test`.
+```ts
+import v from 'euca';
 
-## Configuration
-
-Code quality is set up for you with `prettier`, `husky`, and `lint-staged`. Adjust the respective fields in `package.json` accordingly.
-
-### Jest
-
-Jest tests are set up to run with `npm test` or `yarn test`.
-
-### Bundle Analysis
-
-[`size-limit`](https://github.com/ai/size-limit) is set up to calculate the real cost of your library with `npm run size` and visualize the bundle with `npm run analyze`.
-
-#### Setup Files
-
-This is the folder structure we set up for you:
-
-```txt
-/src
-  index.ts        # EDIT THIS
-/test
-  index.test.ts   # EDIT THIS
-.gitignore
-package.json
-README.md         # EDIT THIS
-tsconfig.json
+const validator = v.string();
+validator.parse('string');
+validator.parse(12); // Not valid, only accepts string
 ```
 
-### Rollup
+### Core
 
-DTS uses [Rollup](https://rollupjs.org) as a bundler and generates multiple rollup configs for various module formats and build settings. See [Optimizations](#optimizations) for details.
+Each validator subclasses the base validator (which is an abstract class), which serves as shared code for multiple validators.
 
-### TypeScript
+Properties:
 
-`tsconfig.json` is set up to interpret `dom` and `esnext` types, as well as `react` for `jsx`. Adjust according to your needs.
+- `optionalProperty`: Whether the property is optional (`T` will also be `T | undefined`)
+- `nullableProperty`: Whether the property can be null (`T` will also be `T | null`)
 
-## Continuous Integration
+Methods:
 
-### GitHub Actions
+- `.optional()`: Mark current property as optional
+- `.nullable()`: Mark current property as nullable
 
-Two actions are added by default:
+> ![WARNING]
+> All modifier methods causes the type for the validator to be overriden. This means you should use core modifiers **last**.
 
-- `main` which installs deps w/ cache, lints, tests, and builds on all pushes against a Node and OS matrix
-- `size` which comments cost comparison of your library on every pull request using [`size-limit`](https://github.com/ai/size-limit)
+### Objects
 
-## Optimizations
+You are able to verify objects as well!
 
-Please see the main `dts` [optimizations docs](https://github.com/weiran-zsd/dts-cli#optimizations). In particular, know that you can take advantage of development-only optimizations:
+> [!NOTE]
+> When parsing, this will call `JSON.parse()` with the object.
 
-```js
-// ./types/index.d.ts
-declare var __DEV__: boolean;
+```ts
+const objValidator = v.object({
+  name: z.string().minLength(2).maxLength(80),
+  age: z.number().min(13),
+});
 
-// inside your code...
-if (__DEV__) {
-  console.log('foo');
-}
+objValidator.parse();
 ```
 
-You can also choose to install and use [invariant](https://github.com/weiran-zsd/dts-cli#invariant) and [warning](https://github.com/weiran-zsd/dts-cli#warning) functions.
+### String
 
-## Module Formats
+TODO
 
-CJS, ESModules, and UMD module formats are supported.
+### Number
 
-The appropriate paths are configured in `package.json` and `dist/index.js` accordingly. Please report if any issues are found.
+TODO
 
-## Named Exports
+### Enum
 
-Per Palmer Group guidelines, [always use named exports.](https://github.com/palmerhq/typescript#exports) Code split inside your React app instead of your React library.
-
-## Including Styles
-
-There are many ways to ship styles, including with CSS-in-JS. DTS has no opinion on this, configure how you like.
-
-For vanilla CSS, you can include it at the root directory and add it to the `files` section in your `package.json`, so that it can be imported separately by your users and run through their bundler's loader.
-
-## Publishing to NPM
-
-We recommend using [np](https://github.com/sindresorhus/np).
+TODO
