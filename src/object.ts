@@ -4,6 +4,8 @@ export type IsValidatorOptional<T> = undefined extends InferType<T>
   ? true
   : false;
 
+type JSONType<T> = null | undefined | string | unknown[] | T | Partial<T>;
+
 export class ObjectValidator<
   V extends {
     [k: string]: V[keyof V] extends BaseValidator<infer Inner>
@@ -19,7 +21,7 @@ export class ObjectValidator<
       ? k
       : never]+?: InferType<V[k]>;
   }
-> extends BaseValidator<T> {
+> extends BaseValidator<T, JSONType<T>> {
   validator: V;
 
   constructor(validator: V) {
@@ -27,13 +29,15 @@ export class ObjectValidator<
     this.validator = validator;
   }
 
-  convert(data: string) {
+  convert(data: string): JSONType<T> {
     return JSON.parse(data);
   }
 
-  _validate(data: T) {
-    // Validator -> Data and Data -> Validator, basically check extras
-    // Inefficient but it works(TM) will optimize later
+  _validate(data: JSONType<T>) {
+    if (typeof data !== 'object' || Array.isArray(data) || data === null) {
+      return false;
+    }
+
     const validatorKeys = new Set(Object.keys(this.validator));
     const objectKeys = new Set(Object.keys(data));
 
