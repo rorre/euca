@@ -2,7 +2,7 @@ import { BaseValidator, ValidateFunc } from './core';
 
 export class EnumValidator<
   T extends Record<string | number, string | number>
-> extends BaseValidator<T, keyof T> {
+> extends BaseValidator<T, keyof T | T[keyof T]> {
   funcs: ValidateFunc<keyof T>[];
   enumType: T;
 
