@@ -1,20 +1,23 @@
 import { BaseValidator, ValidateFunc } from './core';
 
+type EnumValues<T> = keyof T | T[keyof T] | undefined;
 export class EnumValidator<
   T extends Record<string | number, string | number>
-> extends BaseValidator<T, keyof T | T[keyof T]> {
-  funcs: ValidateFunc<keyof T>[];
+> extends BaseValidator<T, EnumValues<T>> {
+  funcs: ValidateFunc<EnumValues<T>>[];
   enumType: T;
 
   constructor(enumType: T) {
     super();
     this.enumType = enumType;
     this.funcs = [
-      (data) => Object.keys(this.enumType).includes(data.toString()),
+      (data) =>
+        data !== undefined &&
+        Object.keys(this.enumType).includes(data.toString()),
     ];
   }
 
-  _validate(data: keyof T) {
+  _validate(data: EnumValues<T>) {
     return this.funcs.every((f) => f(data));
   }
 
