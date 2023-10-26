@@ -42,7 +42,7 @@ export class ObjectValidator<
     const objectKeys = new Set(Object.keys(data));
 
     const missingKeys = [...validatorKeys].filter(
-      (k) => !objectKeys.has(k) && !this.validator[k].optionalProperty
+      (k) => !objectKeys.has(k) && !this.validator[k]!.optionalProperty
     );
     if (missingKeys.length >= 1) return false;
 
