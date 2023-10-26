@@ -1,6 +1,6 @@
 import { ArrayValidator } from './array';
 import { BooleanValidator } from './boolean';
-import { BaseValidator, InferType } from './core';
+import { BaseValidator, InferType as InferTypeLib } from './core';
 import { EnumValidator } from './enum';
 import { NumberValidator } from './number';
 import { ObjectValidator } from './object';
@@ -34,3 +34,4 @@ const v = {
 };
 
 export default v;
+export type InferType<T> = InferTypeLib<T>;
