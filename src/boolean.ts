@@ -8,7 +8,7 @@ export class BooleanValidator extends BaseValidator<boolean> {
   }
 
   convert(data: string) {
-    return data === 'true';
+    return JSON.parse(data);
   }
 
   is(expected: boolean) {
