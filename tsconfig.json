@@ -2,6 +2,23 @@
   "extends": "@tsconfig/recommended/tsconfig.json",
   "include": ["src", "types"],
   "compilerOptions": {
-    "module": "esnext",
+    /* Base Options: */
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "es2022",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    /* Strictness */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "outDir": "dist",
+    "sourceMap": true,
+    /* If NOT transpiling with TypeScript: */
+    "moduleResolution": "Bundler",
+    "module": "ESNext",
+    "noEmit": true,
+    "declaration": true,
+    "declarationMap": true
   }
 }
