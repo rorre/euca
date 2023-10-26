@@ -1,4 +1,5 @@
 import { ArrayValidator } from './array';
+import { BooleanValidator } from './boolean';
 import { BaseValidator, InferType } from './core';
 import { EnumValidator } from './enum';
 import { NumberValidator } from './number';
@@ -26,6 +27,9 @@ const v = {
   },
   array<V>(validator: BaseValidator<V>) {
     return new ArrayValidator(validator);
+  },
+  boolean() {
+    return new BooleanValidator();
   },
 };
 
