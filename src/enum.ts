@@ -1,6 +1,6 @@
 import { BaseValidator, ValidateFunc } from './core';
 
-type EnumValues<T> = keyof T | T[keyof T] | undefined;
+type EnumValues<T> = T[keyof T] | undefined;
 export class EnumValidator<
   T extends Record<string | number, string | number>
 > extends BaseValidator<T, EnumValues<T>> {
@@ -12,8 +12,7 @@ export class EnumValidator<
     this.enumType = enumType;
     this.funcs = [
       (data) =>
-        data !== undefined &&
-        Object.keys(this.enumType).includes(data.toString()),
+        data !== undefined && Object.values(this.enumType).includes(data),
     ];
   }
 
@@ -22,18 +21,12 @@ export class EnumValidator<
   }
 
   convert(data: string) {
-    return this.enumType[data];
-  }
-
-  parse(data: string) {
-    if (this.validate(data))
-      return {
-        success: true as const,
-        data,
-      };
-
-    return {
-      success: false as const,
-    };
+    const key = this.enumType[data];
+    if (key === undefined) {
+      // This block is reserved because in constant enum with all string, typescript actually
+      // does not provide the values as the key. So we can assume data is the value of the enum
+      return data as EnumValues<T>;
+    }
+    return this.enumType[key] as EnumValues<T>;
   }
 }
