@@ -1,6 +1,8 @@
 import { BaseValidator, ValidateFunc } from './core';
 
-export class BooleanValidator extends BaseValidator<boolean> {
+export class BooleanValidator<
+  T extends boolean = boolean
+> extends BaseValidator<T> {
   funcs: ValidateFunc<boolean>[];
   constructor() {
     super();
@@ -11,9 +13,9 @@ export class BooleanValidator extends BaseValidator<boolean> {
     return JSON.parse(data);
   }
 
-  is(expected: boolean) {
+  is<V extends boolean>(expected: V) {
     this.funcs.push((data) => data === expected);
-    return this as BooleanValidator;
+    return this as unknown as BooleanValidator<V>;
   }
 
   _validate(data: boolean) {
