@@ -4,7 +4,7 @@ export class NumberValidator extends BaseValidator<number> {
   funcs: ValidateFunc<number>[];
   constructor() {
     super();
-    this.funcs = [(data) => typeof data === 'number'];
+    this.funcs = [(data) => typeof data === 'number', (data) => !isNaN(data)];
   }
 
   convert(data: string) {
