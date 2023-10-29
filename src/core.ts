@@ -5,6 +5,9 @@ export type ValidateFunc<T> = (data: T) => boolean;
 export type InferType<T> = T extends BaseValidator<infer Inner, unknown>
   ? Inner
   : never;
+export type IsValidatorOptional<T> = undefined extends InferType<T>
+  ? true
+  : false;
 
 export abstract class BaseValidator<T, TValidate = T> {
   optionalProperty: boolean;

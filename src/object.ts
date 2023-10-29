@@ -1,8 +1,4 @@
-import { BaseValidator, InferType } from './core';
-
-export type IsValidatorOptional<T> = undefined extends InferType<T>
-  ? true
-  : false;
+import { BaseValidator, InferType, IsValidatorOptional } from './core';
 
 type JSONType<T> = null | undefined | string | unknown[] | T | Partial<T>;
 
@@ -12,7 +8,7 @@ export class ObjectValidator<
       ? BaseValidator<Inner>
       : never;
   },
-  T extends {
+  T = {
     [k in keyof V as IsValidatorOptional<V[k]> extends false
       ? k
       : never]: InferType<V[k]>;
