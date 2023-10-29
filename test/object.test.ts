@@ -102,4 +102,31 @@ describe('object module', () => {
       success: false,
     });
   });
+
+  test('optional property in object', () => {
+    const data: Data = {
+      age: 20,
+      description: 'Hello world!',
+      profile: {
+        github: 'rorre',
+      },
+      roles: [Role.ADMIN, Role.USER],
+      username: 'rorre',
+    };
+
+    expect(validator.parse(JSON.stringify(data))).toEqual({
+      success: true,
+      data: data,
+    });
+  });
+
+  test('invalid data types', () => {
+    expect(validator.parse(JSON.stringify([]))).toEqual({
+      success: false,
+    });
+
+    expect(validator.parse(JSON.stringify(null))).toEqual({
+      success: false,
+    });
+  });
 });
