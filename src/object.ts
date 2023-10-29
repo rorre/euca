@@ -46,6 +46,11 @@ export class ObjectValidator<
     );
     if (missingKeys.length >= 1) return false;
 
+    const extraKeys = Array.from(objectKeys).filter(
+      (k) => !validatorKeys.has(k)
+    );
+    if (extraKeys.length >= 1) return false;
+
     return Object.entries(this.validator)
       .map(([key, validator]) =>
         Object.keys(data).includes(key)
