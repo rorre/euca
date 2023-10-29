@@ -25,7 +25,7 @@ const v = {
   enum<T extends Record<string | number, string | number>>(enumType: T) {
     return new EnumValidator(enumType);
   },
-  array<V>(validator: BaseValidator<V>) {
+  array<V, TValidate = V>(validator: BaseValidator<V, TValidate>) {
     return new ArrayValidator(validator);
   },
   boolean() {

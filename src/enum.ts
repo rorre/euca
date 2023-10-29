@@ -1,9 +1,12 @@
 import { BaseValidator, ValidateFunc } from './core';
 
-type EnumValues<T> = T[keyof T] | undefined;
+type EnumValues<T extends Record<string | number, string | number>> =
+  | T[keyof T]
+  | undefined;
+
 export class EnumValidator<
   T extends Record<string | number, string | number>
-> extends BaseValidator<T, EnumValues<T>> {
+> extends BaseValidator<T[keyof T], EnumValues<T>> {
   funcs: ValidateFunc<EnumValues<T>>[];
   enumType: T;
 
