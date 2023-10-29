@@ -68,11 +68,11 @@ export abstract class BaseValidator<T, TValidate = T> {
 
   optional() {
     this.optionalProperty = true;
-    return this as BaseValidator<T | undefined>;
+    return this as BaseValidator<T | undefined, TValidate | undefined>;
   }
 
   nullable() {
     this.nullableProperty = true;
-    return this as BaseValidator<T | null>;
+    return this as BaseValidator<T | null, TValidate | null>;
   }
 }
