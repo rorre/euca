@@ -24,16 +24,4 @@ export class StringValidator extends BaseValidator<string> {
   convert(data: string) {
     return data;
   }
-
-  parse(data: string) {
-    if (this.validate(data))
-      return {
-        success: true as const,
-        data,
-      };
-
-    return {
-      success: false as const,
-    };
-  }
 }
