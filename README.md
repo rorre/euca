@@ -26,9 +26,15 @@ The package exports one default object for you to use, `v`. You use it just like
 ```ts
 import v from 'euca';
 
-const validator = v.string();
-validator.parse('string');
+const validator = v.string().minLength(2);
+const result = validator.parse('string');
 validator.parse(12); // Not valid, only accepts string
+
+if (result.success) {
+  console.log(`Success, your data is ${result.data}`);
+} else {
+  console.log('Parse and validate failed');
+}
 ```
 
 ### Core
