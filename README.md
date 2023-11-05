@@ -1,4 +1,5 @@
 <p align="center">
+  <img src="https://i.imgur.com/V0HBcsP.png" alt="Euca. A character by shirokoi.">
   <h1 align="center">Euca</h1>
   <p align="center">Yet another validator and JSON parser with first class Typescript support and zod-like features.</p>
 </p>
@@ -180,3 +181,6 @@ if (result.success) {
   console.log(result.data);
 }
 ```
+
+------
+Euca character and artwork used is made by [shirokoi](https://twitter.com/shirokoi_arts).
